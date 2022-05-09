@@ -8,7 +8,6 @@ class Item(Resource):
     parser.add_argument('name', type=str, required=True, help="This field cannot be left blank!")
     parser.add_argument('price', type=float, required=True, help="This field cannot be left blank!")
   
-    @jwt_required()
     def get(self, name=None):
         item = ItemModel.find_by_name(name)
         if (item):
@@ -41,7 +40,8 @@ class Item(Resource):
                 return {'message': 'Item not updated'}, 500
         else:
             return {'message': 'Item not found'}, 404
-
+            
+    @jwt_required()
     def delete(self, name):
         item = ItemModel.find_by_name(name)
         if (item):
