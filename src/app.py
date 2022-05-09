@@ -22,6 +22,8 @@ from config import config
 #-------------- CONTROLLERS -----------------#
 from resources.item import Item, ItemList
 from resources.user import UserPasswordUpdate, UserRegister
+#----------------- MODELS -------------------#
+from models.userModel import UserModel
 
 #---------- SECRET KEY LOAD -----------------#
 def load_env_var():
@@ -37,6 +39,9 @@ api = Api(app)
 @app.before_first_request
 def create_tables():
     db.create_all()
+    if not UserModel.find_by_username('admin'):
+        user = UserModel(0, 'admin', 'admin')
+        user.save_to_db()
 
 #------ AUTHENTICATION AND AUTHORIZATION -----#
 #csrf = CSRFProtect()
